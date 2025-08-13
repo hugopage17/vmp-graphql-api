@@ -1,0 +1,47 @@
+{
+    "family": "VmpInfraStackvolcanomonitoringplatformgraphqlapistackdevvolcanomonitoringplatformapifargateservicedevTaskDef5FE6E7E8",
+    "networkMode": "awsvpc",
+    "requiresCompatibilities": ["FARGATE"],
+    "cpu": "512",
+    "memory": "1024",
+    "containerDefinitions": [
+      {
+        "name": "web",
+        "image": "206653033893.dkr.ecr.ap-southeast-2.amazonaws.com/volcano-monitoring-platform-graphql-api-respository-dev:latest",
+        "essential": true,
+        "portMappings": [
+          {
+            "containerPort": 4000,
+            "hostPort": 4000
+          }
+        ],
+        "environment": [
+            {
+                "name": "GEONET_API_URL",
+                "value": "https://api.geonet.org.nz"
+            },
+            {
+                "name": "GEONET_TILDE_URL",
+                "value": "https://tilde.geonet.org.nz/v4/data/envirosensor"
+            },
+            {
+                "name": "CAMERA_IMAGE_BUCKET",
+                "value": "volcano-monitoring-platform-camera-images-bucket-dev"
+            },
+            {
+                "name": "DATA_CACHE_TABLE",
+                "value": "volcano-monitoring-platform-data-cache-dev"
+            },
+            {
+                "name": "USERPOOL_ID",
+                "value": "ap-southeast-2_iuBIeIQdr"
+            },
+            {
+                "name": "APP_CLIENT",
+                "value": "edi18e00l9dcsbb1s6cpl5n68"
+            }
+        ]
+      }
+    ]
+  }
+  
