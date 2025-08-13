@@ -1,0 +1,186 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+directive @upper on FIELD_DEFINITION
+
+type VolcanoMetric {
+  name: String!
+  sensorCode: String!
+}
+
+type VolcanoTildeInformation {
+  id: String!
+  metrics: [VolcanoMetric!]!
+}
+
+type VolcanoCameraSite {
+  imageServerKey: String!
+  siteId: String!
+  label: String!
+}
+
+type Volcano {
+  title: String!
+  id: ID!
+  cameraSites: [VolcanoCameraSite!]!
+  graphImageIds: [String!]!
+  tildeInformation: VolcanoTildeInformation
+  coordinates: [Float!]!
+  volcanicLevel: Int!
+  volcanicActivity: String!
+  hazards: String!
+}
+
+type EarthquakeGeometry {
+  type: String!
+  coordinates: [Float!]!
+}
+
+type EarthquakeProperties {
+  publicID: String!
+  time: String!
+  depth: Float!
+  magnitude: Float!
+  locality: String!
+  intensity: String!
+  regionIntensity: String!
+  mmi: Float!
+  quality: String!
+  status: String!
+}
+
+type EarthquakeFeature {
+  type: String!
+  geometry: EarthquakeGeometry!
+  properties: EarthquakeProperties!
+}
+
+type EarthquakeFeatureCollection {
+  type: String!
+  features: [EarthquakeFeature!]!
+}
+
+type VolcanoCameraSiteImage {
+  imageServerKey: String!
+  siteId: String!
+  latestImages: [String!]!
+}
+
+type SensorData {
+  val: Float!
+  err: Float!
+  qc: String!
+  ts: String!
+}
+
+type SensorMetric {
+  measurements: [SensorData!]!
+  metric: String!
+}
+
+type VolcanicLightningInfo {
+  volcanoNumber: String!
+  name: String!
+  region: String!
+  type: String!
+  severity: String!
+  latitude: Float!
+  longitude: Float!
+  strikes20Km: Int!
+  strikes100Km: Int!
+  googleEarthKML: String!
+}
+
+type VolcanicLightning {
+  region: String
+  info: [VolcanicLightningInfo!]
+}
+
+type VolcanicLightningDBItem {
+  pk: String!
+  sk: String!
+  strikeInfo: [VolcanicLightningInfo!]!
+}
+
+type UserDetails {
+  id: ID!
+  email: String!
+  firstName: String!
+  lastName: String!
+  role: String!
+  createdAt: DateTime!
+  lastModified: DateTime!
+  active: Boolean!
+  status: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type UpdateUserResponse {
+  success: Boolean!
+}
+
+type Query {
+  listVolcanoes: [Volcano!]!
+  getVolcano(volcanoId: String!): Volcano!
+  listVolcanicEarthquakes(volcanoId: String!): EarthquakeFeatureCollection!
+  listVolcanoCameraSiteImages: [VolcanoCameraSiteImage!]!
+  getTildeData(tildeInput: TildeDataInput!): SensorMetric!
+  getLightningStrikes: [VolcanicLightning!]!
+  listUsers: [UserDetails!]!
+}
+
+input TildeDataInput {
+  id: String!
+  metric: String!
+  sensorCode: String!
+  aspect: String
+  timeframe: String!
+  aggregationPeriod: String!
+}
+
+type Mutation {
+  newLightningStrikes(volcanicLightningInput: VolcanicLightningInput!): VolcanicLightningDBItem!
+  createUser(createUserInput: CreateUserInput!): UserDetails!
+  updateUser(updateUserInput: UpdateUserInput!): UpdateUserResponse!
+}
+
+input VolcanicLightningInput {
+  strikeInfo: [VolcanicStrikesInput!]!
+}
+
+input VolcanicStrikesInput {
+  volcanoNumber: String!
+  name: String!
+  region: String!
+  type: String!
+  severity: String!
+  latitude: Float!
+  longitude: Float!
+  strikes20Km: Int!
+  strikes100Km: Int!
+  googleEarthKML: String!
+}
+
+input CreateUserInput {
+  email: String!
+  firstName: String!
+  lastName: String!
+  isAdmin: Boolean!
+}
+
+input UpdateUserInput {
+  email: String!
+  firstName: String
+  lastName: String
+  isAdmin: Boolean
+  active: Boolean
+}
+
+type Subscription {
+  onNewLightningStrikes: [VolcanicLightning!]!
+}
