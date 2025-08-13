@@ -5,6 +5,8 @@ phases:
     commands:
       - echo Logging in to Amazon ECR...
       - aws --version
+      - echo $REPOSITORY_URI
+      - echo $IMAGE_TAG
       - aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin $REPOSITORY_URI
 
   build:
@@ -19,6 +21,10 @@ phases:
       - echo Pushing the Docker image...
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - echo Build completed on `date`
+      - echo Writing imagedefinitions.json
+      - printf '[{"name":"web","imageUri":"%s:%s"}]' $REPOSITORY_URI $IMAGE_TAG > imagedefinitions.json
+    
+
 
 artifacts:
   files:
