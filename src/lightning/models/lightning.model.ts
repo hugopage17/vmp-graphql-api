@@ -52,5 +52,8 @@ export class VolcanicLightningDBItem {
 
   @Field(() => [VolcanicLightningInfo])
   strikeInfo: VolcanicLightningInfo[];
+
+  @Field(() => Int)
+  ttl: number;
 }
 

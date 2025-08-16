@@ -33,7 +33,8 @@ export class LightningDataService {
             const dbItem = {
                 pk: 'VOLCANIC_LIGHTNING',
                 sk: `${dayjs().utc().format("YYYYMMDDTHHmmss")}#${crypto.randomUUID()}`,
-                ...item
+                ...item,
+                ttl: dayjs().utc().add(15, "minutes").unix()
             }
             await this.dbService.putItem(dbItem);
             console.info(`Saved ${item.strikeInfo.length} strikes to ${process.env.DATA_CACHE_TABLE!}.`);
