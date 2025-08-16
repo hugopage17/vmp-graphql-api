@@ -13,7 +13,7 @@ export class LightningDataService {
     }
 
     public async listLightningStrikes(sortKey?: string) {
-        const lightningStrikes = await this.dbService.query<VolcanicLightningDBItem>("VOLCANIC_LIGHTNING", sortKey ?? "");
+        const lightningStrikes = await this.dbService.query<VolcanicLightningDBItem>("VOLCANIC_LIGHTNING", sortKey ?? "2");
         const strikeInfo = lightningStrikes?.[0]?.strikeInfo?.reduce((prev, curr) => {
             if (prev.find((p) => p.region === curr.region)) {
                 prev.find((p) => p.region === curr.region)?.info.push(curr)           
