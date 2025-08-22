@@ -18,7 +18,7 @@ export class LightningResolver {
 
     @Query(() => [VolcanicLightning])
     @UseGuards(CognitoAuthGuard)
-        @LogRequest()
+    @LogRequest()
     async getLightningStrikes(): Promise<VolcanicLightning[]> {
         return await this.lightningService.listLightningStrikes();
     }
